@@ -1,0 +1,90 @@
+
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Film</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .bg{
+        background: rgba(28,34,27,0.85);
+    }
+</style>
+<body class="bg">
+
+<img th:src="${film.getImageUrl()}" alt="" style="height: 150px; width: 100%; object-fit: cover;">
+
+<div class="container col-9 text-light" style="margin-top: 50px; display: flex; flex-direction: column; justify-content: center;">
+    <h2 th:text="${film.getName()}"></h2>
+    <p th:text="${film.getDetails()}"></p>
+
+    <iframe th:src="${film.getVideoUrl()}" width="80%" height="500" style="margin: 0 auto;" frameborder="0" allowfullscreen>
+        Ваш браузер не поддерживает плавающие фреймы!
+    </iframe>
+
+    <h3>Comments: </h3>
+    <div class="comments container" style="margin-top: 50px;">
+        <ul class="list-group bg">
+            <li class="list-group-item bg" th:each="comment: ${comments}">
+                <div class="row">
+                    <div class="col-xs-10 col-md-11 row">
+                        <div class="col-10">
+                            <div>
+                                <div class="mic-info">
+                                    By: <a href="#" th:text="${comment.getUsername()}"></a>
+                                </div>
+                            </div>
+                            <div class="comment-text" th:text="${comment.getContent()}">
+                            </div>
+                        </div>
+                        <div class="action col-2">
+                            <form action="/comment/delete" method="post" th:if="${admin} == true">
+                                <input type="hidden" name="id" th:value="${comment.getId()}">
+                                <input type="hidden" name="filmId" th:value="${film.getId()}">
+                                <button type="submit" class="btn btn-danger btn-xs" title="Delete">
+                                    <span class="glyphicon glyphicon-trash">Delete</span>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <form action="/comment/add" method="post" th:if="${admin} != null">
+            <input type="hidden" name="filmId" th:value="${film.getId()}">
+            <div class="input-group mb-3">
+                <input type="text" name="content" class="form-control" placeholder="Type your comment there">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit">Comment</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div style="height: 200px;"></div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

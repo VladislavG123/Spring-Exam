@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .bg{
+        background: rgba(28,34,27,0.85);
+    }
+</style>
+<body class="bg">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Home</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+            aria-controls="collapsibleNavId"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <a th:if="${admin != null}" href="/admin" class="btn col-1 btn-link text-light my-2 my-lg-0">Admin Panel</a>
+        <div class="col-10"></div>
+        <a th:if="${loggedIn != null && loggedIn}" href="/logoff" type="button" class="btn btn-outline-success my-2 my-lg-0">Log Off</a>
+        <button th:unless="${loggedIn != null && loggedIn}" type="button" class="btn btn-outline-success my-2 my-lg-0" data-toggle="modal" data-target=".bd-example-modal-lg">Log In</button>
+
+    </div>
+</nav>
+
+
+<div th:if="${logup} != null" class="log-alerts">
+    <div th:if="${logup}" class="modal" style="opacity: 100%; display: block;" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Log Up</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>No such user data, Would you log up new user?</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="/signup" method="post">
+                        <input type="hidden" name="username" th:value="${username}">
+                        <input type="hidden" name="password" th:value="${password}">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="!${logup}" class="alert alert-danger" role="alert">
+        Wrong password
+    </div>
+
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content m-10 bg-dark center text-light " style="padding: 20px;" >
+            <div style="height: 30px;"></div>
+            <h2>Log In there</h2>
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input name="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div style="height: 30px;"></div>
+                <button type="submit" class="btn btn-success center">Submit</button>
+                <div style="height: 10px;"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="content col-10" style="margin: 50px auto;">
+    <h2 class="text-light">Films</h2>
+
+    <div class="card-columns">
+
+        <div th:each="film: ${films}" class="card bg-dark border-success text-light">
+            <img th:src="${film.getImageUrl()}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${film.getName()}"></h5>
+                <p class="card-text" th:text="${film.getDetails()}"></p>
+                <a name="" id="" class="btn btn-success" th:href="'/film?id=' + ${film.getId()}" role="button">Watch</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

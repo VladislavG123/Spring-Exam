@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .bg{
+        background: rgba(28,34,27,0.85);
+    }
+</style>
+<body class="bg">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Admin</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+            aria-controls="collapsibleNavId"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <a href="/" class="btn col-1 btn-link text-light my-2 my-lg-0">Home</a>
+        <div class="col-10"></div>
+   </div>
+</nav>
+
+<br>
+<button type="button" class="btn btn-success my-2 my-lg-0" data-toggle="modal" data-target=".bd-example-modal-lg">+ Add</button>
+<br>
+<h2 class="text-light">Films</h2>
+<table class="table-dark col-12">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Link</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="film: ${films}">
+        <th scope="row" th:text="${film.getName()}"></th>
+        <td> <a th:href="'film?id=' + ${film.getId()}">link</a></td>
+        <td>
+            <form action="/admin/delete_film" method="get">
+                <input type="hidden" name="id" th:value="${film.getId()}">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content m-10 bg-dark center text-light " style="padding: 20px;" >
+            <div style="height: 30px;"></div>
+            <h2>Create New Film</h2>
+            <form action="/admin/add_film" method="post">
+                <div class="form-group">
+                    <label>Name</label>
+                    <label>
+                        <input name="name" type="text" class="form-control" placeholder="Title">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Details</label>
+                    <label>
+                        <textarea name="details" cols="30" class="form-control" rows="10"></textarea>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Image</label>
+                    <label>
+                        <input name="image" type="text" class="form-control" placeholder="Image url">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Video</label>
+                    <label>
+                        <input name="video" type="text" class="form-control" placeholder="Video url">
+                    </label>
+                </div>
+                <div style="height: 30px;"></div>
+                <button type="submit" class="btn btn-success center">Submit</button>
+                <div style="height: 10px;"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
